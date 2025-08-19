@@ -4,8 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hisab Table</title>
+
+  <!-- Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <style>
     body {
       font-family: sans-serif;
@@ -42,14 +45,15 @@
       background-color: #ffff99;
     }
 
-    .blue    { background-color: #cfe2f3; }  /* SITE NAME */
-    .mint    { background-color: #d9ead3; }  /* USER ID */
-    .coral   { background-color: #f4cccc; }  /* CREDIT LIMIT */
-    .yellow  { background-color: #fff2cc; }  /* CURRENT BALANCE */
-    .teal    { background-color: #d0e0e3; }  /* DIFFERENCE */
-    .peach   { background-color: #fce5cd; }  /* COIN RATE */
-    .gold    { background-color: #fff9c4; }  /* AMOUNT */
-    .gray    { background-color: #e6e6e6; }  /* TOTAL */
+    /* Column colors */
+    .blue   { background-color: #cfe2f3; }  /* SITE NAME */
+    .mint   { background-color: #d9ead3; }  /* USER ID */
+    .coral  { background-color: #f4cccc; }  /* CREDIT LIMIT */
+    .yellow { background-color: #fff2cc; }  /* CURRENT BALANCE */
+    .teal   { background-color: #d0e0e3; }  /* DIFFERENCE */
+    .peach  { background-color: #fce5cd; }  /* COIN RATE */
+    .gold   { background-color: #fff9c4; }  /* AMOUNT */
+    .gray   { background-color: #e6e6e6; }  /* TOTAL */
 
     input[type="text"] {
       border: none;
@@ -106,7 +110,6 @@
       input[type="text"],
       input[type="number"] {
         font-size: 12px;
-        text-transform: uppercase;
         height: 20px;
       }
     }
@@ -119,17 +122,16 @@
       <thead>
         <tr>
           <th colspan="4">
-            NAME: 
-            <input type="text" id="nameInput" placeholder=""
-              style="border:none; border-bottom:none; text-align:center; font-weight:bold;"/>
+            NAME:
+            <input type="text" id="nameInput"
+                   style="border:none; text-align:center; font-weight:bold;"/>
           </th>
           <th colspan="4">
-            DATE: 
+            DATE:
             <input type="date" id="dateInput"
-              style="border:none; border-bottom:none; text-align:center; font-weight:bold; background:transparent;"/>
+                   style="border:none; text-align:center; font-weight:bold; background:transparent;"/>
           </th>
         </tr>
-
         <tr>
           <th class="blue">SITE NAME</th>
           <th class="mint">USER ID</th>
@@ -144,14 +146,16 @@
 
       <tbody id="refillBody">
         <tr>
-          <td class="blue"><input type="text" class="expandable" oninput="autoGrowInput(this)" /></td>
-          <td class="mint"><input type="text" value="" oninput="autoGrowInput(this)" /></td>
-          <td class="coral"><input type="number" value="" oninput="calculateTotals()" /></td>
-          <td class="yellow"><input type="number" value="" oninput="calculateTotals()" /></td>
-          <td class="teal"><input type="number" value="" readonly /></td>
-          <td class="peach"><input type="number" value="" oninput="calculateTotals()" /></td>
-          <td class="gold"><input type="number" value="" readonly /></td>
-          <td class="row-buttons"><button class="action-btn" onclick="removeRow(this)">🗑️</button></td>
+          <td class="blue"><input type="text" oninput="autoGrowInput(this)" /></td>
+          <td class="mint"><input type="text" /></td>
+          <td class="coral"><input type="number" oninput="calculateTotals()" /></td>
+          <td class="yellow"><input type="number" oninput="calculateTotals()" /></td>
+          <td class="teal"><input type="number" readonly /></td>
+          <td class="peach"><input type="number" oninput="calculateTotals()" /></td>
+          <td class="gold"><input type="number" readonly /></td>
+          <td class="row-buttons">
+            <button class="action-btn" onclick="removeRow(this)">🗑️</button>
+          </td>
         </tr>
       </tbody>
 
@@ -163,7 +167,9 @@
           <td class="gray" id="totalDiff">0</td>
           <td class="gray" id="totalRate">-</td>
           <td class="gray" id="totalAmount">0</td>
-          <td><button class="action-btn" onclick="addRefillRow()">➕ Add Row</button></td>
+          <td>
+            <button class="action-btn" onclick="addRefillRow()">➕ Add Row</button>
+          </td>
         </tr>
       </tfoot>
     </table>
@@ -181,14 +187,16 @@
     function addRefillRow() {
       const row = `
         <tr>
-          <td class="blue"><input type="text" class="expandable" oninput="autoGrowInput(this)" /></td>
-          <td class="mint"><input type="text" value="" /></td>
-          <td class="coral"><input type="number" value="" oninput="calculateTotals()" /></td>
-          <td class="yellow"><input type="number" value="" oninput="calculateTotals()" /></td>
-          <td class="teal"><input type="number" value="" readonly /></td>
-          <td class="peach"><input type="number" value="" oninput="calculateTotals()" /></td>
-          <td class="gold"><input type="number" value="" readonly /></td>
-          <td class="row-buttons"><button class="action-btn" onclick="removeRow(this)">🗑️</button></td>
+          <td class="blue"><input type="text" oninput="autoGrowInput(this)" /></td>
+          <td class="mint"><input type="text" oninput="autoGrowInput(this)" /></td>
+          <td class="coral"><input type="number" oninput="calculateTotals()" /></td>
+          <td class="yellow"><input type="number" oninput="calculateTotals()" /></td>
+          <td class="teal"><input type="number" readonly /></td>
+          <td class="peach"><input type="number" oninput="calculateTotals()" /></td>
+          <td class="gold"><input type="number" readonly /></td>
+          <td class="row-buttons">
+            <button class="action-btn" onclick="removeRow(this)">🗑️</button>
+          </td>
         </tr>`;
       document.getElementById('refillBody').insertAdjacentHTML('beforeend', row);
     }
@@ -208,91 +216,76 @@
       document.querySelectorAll('#refillBody tr').forEach(row => {
         const cells = row.querySelectorAll('td input');
 
-        let credit = parseFloat(cells[2].value) || 0;
+        let credit  = parseFloat(cells[2].value) || 0;
         let balance = parseFloat(cells[3].value) || 0;
-        let rate = parseFloat(cells[5].value) || 0;
+        let rate    = parseFloat(cells[5].value) || 0;
 
-        // --- Calculations ---
+        // Difference
         let diff = balance - credit;
-        cells[4].value = diff; // update Difference cell
+        cells[4].value = diff;
+        cells[4].style.color = diff < 0 ? "red" : "#006666";
+        cells[4].style.fontWeight = "bold";
 
-        if (diff < 0) {
-           cells[4].style.color = "red";
-           cells[4].style.fontWeight = "bold";
-        } else {
-           cells[4].style.color = "#006666"; // teal-like text
-           cells[4].style.fontWeight = "bold";
-        }
-
+        // Amount
         let amount = diff * rate;
-        cells[6].value = amount; // update Amount cell
-
-        if (amount < 0) {
-          cells[6].style.color = "red";
-        } else {
-          cells[6].style.color = "#006666";
-        }
+        cells[6].value = amount;
+        cells[6].style.color = amount < 0 ? "red" : "#006666";
         cells[6].style.fontWeight = "bold";
 
-        // --- Totals ---
-        totalCredit += credit;
+        // Totals
+        totalCredit  += credit;
         totalBalance += balance;
-        totalDiff += diff;
-        totalRate += rate;   // (or average later if needed)
-        totalAmount += amount;
+        totalDiff    += diff;
+        totalRate    += rate;
+        totalAmount  += amount;
       });
 
-      document.getElementById('totalCredit').textContent = totalCredit;
+      document.getElementById('totalCredit').textContent  = totalCredit;
       document.getElementById('totalBalance').textContent = totalBalance;
-      document.getElementById('totalDiff').textContent = totalDiff;
-      document.getElementById('totalRate').textContent = "-"; // Or average if required
-      document.getElementById('totalAmount').textContent = totalAmount;
+      document.getElementById('totalDiff').textContent    = totalDiff;
+      document.getElementById('totalRate').textContent    = "-";
+      document.getElementById('totalAmount').textContent  = totalAmount;
 
-      const totalDiffCell = document.getElementById('totalDiff');
-      if (totalDiff < 0) {
-        totalDiffCell.style.color = "red";
-        totalDiffCell.style.fontWeight = "bold";
-      } else {
-        totalDiffCell.style.color = "#006666";
-        totalDiffCell.style.fontWeight = "bold";
-      }
-      
-      const totalAmountCell = document.getElementById('totalAmount');
-      if (totalAmount < 0) {
-        totalAmountCell.style.color = "red";
-        totalAmountCell.style.fontWeight = "bold";
-      } else {
-        totalAmountCell.style.color = "#006666";
-        totalAmountCell.style.fontWeight = "bold";
-      }
-
-
+      // Total styles
+      document.getElementById('totalDiff').style.color   = totalDiff < 0 ? "red" : "#006666";
+      document.getElementById('totalAmount').style.color = totalAmount < 0 ? "red" : "#006666";
     }
 
-    async function downloadPDF() {
+    function downloadPDF() {
       const { jsPDF } = window.jspdf;
-      const captureElement = document.getElementById('capture');
 
-      const originalWidth = captureElement.style.width;
-      captureElement.style.width = '210mm';
+      html2canvas(document.getElementById("capture"), {
+        scale: 2,
+        useCORS: true
+      }).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p", "mm", "a4");
 
-      const canvas = await html2canvas(captureElement, {
-        scale: 1,
-        useCORS: true,
-        backgroundColor: "#ffffff"
+        const pageWidth  = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        const imgWidth  = pageWidth - 10;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        let position = 10;
+        if (imgHeight < pageHeight) {
+          pdf.addImage(imgData, "PNG", 5, position, imgWidth, imgHeight);
+        } else {
+          let heightLeft = imgHeight;
+          let y = 10;
+
+          while (heightLeft > 0) {
+            pdf.addImage(imgData, "PNG", 5, y, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+            if (heightLeft > 0) {
+              pdf.addPage();
+              y = 0;
+            }
+          }
+        }
+
+        pdf.save("Hisab_Table.pdf");
       });
-
-      captureElement.style.width = originalWidth;
-
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-
-      const pageWidth = 210;
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save('Hisab_Table.pdf');
     }
   </script>
 </body>
