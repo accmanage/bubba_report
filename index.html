@@ -147,7 +147,7 @@
       <tbody id="refillBody">
         <tr>
           <td class="blue"><input type="text" oninput="autoGrowInput(this)" /></td>
-          <td class="mint"><input type="text" /></td>
+          <td class="mint"><input type="text" oninput="autoGrowInput(this)" /></td>
           <td class="coral"><input type="number" oninput="calculateTotals()" /></td>
           <td class="yellow"><input type="number" oninput="calculateTotals()" /></td>
           <td class="teal"><input type="number" readonly /></td>
@@ -253,18 +253,23 @@
 
     function downloadPDF() {
       const { jsPDF } = window.jspdf;
+      const element = document.getElementById("refillTable"); // 🔹 fixed ID
 
-      html2canvas(document.getElementById("capture"), {
+      html2canvas(element, {
         scale: 2,
-        useCORS: true
+        useCORS: true,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight
       }).then(canvas => {
         const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
 
-        const pageWidth  = pdf.internal.pageSize.getWidth();
+        const pdf = new jsPDF("p", "mm", "a4");
+        const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
 
-        const imgWidth  = pageWidth - 10;
+        const imgWidth = pageWidth - 10;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
         let position = 10;
@@ -273,7 +278,6 @@
         } else {
           let heightLeft = imgHeight;
           let y = 10;
-
           while (heightLeft > 0) {
             pdf.addImage(imgData, "PNG", 5, y, imgWidth, imgHeight);
             heightLeft -= pageHeight;
